@@ -1,2 +1,6 @@
 Puppet files for dealing with home stuff
 used for multiple linux installation automation
+
+site.pp
+	apps.pp
+	...
