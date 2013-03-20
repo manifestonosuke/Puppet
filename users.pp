@@ -2,11 +2,11 @@
 class virt_groups {
 	@group { "local": 
 	ensure => present,
-	gid => "local",
+	gid => "10000",
 	}
 }
 
-class virt_user::define {
+class virt_user_define {
 	@user { "test": 
 	ensure => "present",
 	uid => "20000",
@@ -15,16 +15,16 @@ class virt_user::define {
 	home => "/home/test",
 	shell => "/bin/bash",
 	}
-	@user { 
-	"pierre": ensure => "present",
+	@user { "pierre": 
+	ensure => "present",
 	uid => "10705",
 	gid => "local",
 	comment => "Pierre",
 	home => "/home/pierre",
 	shell => "/bin/bash",
 	}
-        @user {
-        "nimda": ensure => "present",
+        @user { "nimda": 
+	ensure => "present",
         uid => "10001",
         gid => "local",
         comment => "Admin user",
@@ -34,10 +34,14 @@ class virt_user::define {
 
 }
 
-class virt_user::admin inherits virt_user::define {
+class virt_user_admin inherits virt_user_define {
 	include virt_groups, sudo_group
-	User["pierre"] {groups +> "$sudo_group"}
-	User["nimda"] {groups +> "$sudo_group"}
+
+	$sudo_group = $sudo_group::sudo_group
+  	#notice("os is $operatingsystem sudo_group is ${sudo_group}.")
+	
+	User["pierre"] { groups +> "${sudo_group}" }
+	User["nimda"] { groups +> "${sudo_group}" }
 	realize(
 		Group["local"],
 		User["pierre"],
@@ -45,7 +49,7 @@ class virt_user::admin inherits virt_user::define {
 	)
 }
 
-class virt_user::common inherits virt_user::define {
+class virt_user_common inherits virt_user_define {
 	include virt_groups
 	realize(
 		Group["local"],
@@ -63,5 +67,6 @@ class sudo_group {
       $sudo_group = "sudo"
     }
   }
+  notice("os is $operatingsystem sudo_group is ${sudo_group}.")
 }
 

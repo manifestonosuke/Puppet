@@ -3,7 +3,7 @@
 
 
 class apps_system {
-$pkglist = ["git", "ncftp","filezilla"]
+$pkglist = ["git", "ncftp","filezilla","sudo"]
 package { $pkglist : ensure => installed }
 }
 
