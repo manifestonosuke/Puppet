@@ -1,9 +1,12 @@
 class custom_mounts {
 	$mountdir = "/data"
-	$device = "/dev/sda4"
 	if tagged(work) {
 	$device = "/dev/sda2"
 	}
+	if tagged(home) {
+        $device = "/dev/sda4"
+        }
+
 
 	file { "$mountdir":
     	ensure => "directory",
