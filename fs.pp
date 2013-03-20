@@ -23,3 +23,9 @@ class custom_mounts {
         atboot  => "true",
     	}
 }
+class share_home_mounts {
+	file { "/home/pierre":
+ 		ensure => link,
+  		target => "/data/home/pierre",
+	}
+}
