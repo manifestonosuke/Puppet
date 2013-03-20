@@ -11,7 +11,12 @@ filebucket { main:
 
 
 node default {
-tag(work)
+if  $domain == "localdomain" { tag(home) }
+else { tag(work) }
+
+if tagged(work) { notice("this is work") }
+if tagged(home) { notice("this is home") }
+
 include apps_browser
 include apps_common
 include apps_system
